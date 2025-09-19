@@ -34,7 +34,7 @@ public class Main {
     }
 
     private void showWelcomeMenu() {
-        String[] options = { "Register", "Login", "Exit" };
+        String[] options = {"Register", "Login", "Exit"};
         ConsoleUtils.displayMenu("Choose one option", options);
 
         int choice = ConsoleUtils.readInt("Choose an option");
@@ -112,6 +112,7 @@ public class Main {
                 System.out.println();
                 break;
             case 2:
+                handleReserveRoom(user);
                 break;
 
             default:
@@ -155,12 +156,18 @@ public class Main {
                 break;
             case 4:
                 // delete
+                handleDeleteHotel(user);
+                break;
+            case 5:
+                // reserve room
+                handleReserveRoom(user);
                 break;
             default:
                 break;
         }
     }
 
+    //admin handlers
     private void handleCreateHotel(Client user) {
         try {
 
@@ -176,26 +183,62 @@ public class Main {
 
     private void handleUpdateHotel(Client user) {
         try {
-            List<Hotel> hotelsList = hotelService.listAllHotels();
-            Hotel[] hotels = hotelsList.toArray(new Hotel[0]);
-            for (int i = 0; i < hotels.length; i++) {
-                System.out.println((i + 1) + ". " + hotels[i].getName());
-            }
-
-            int index = ConsoleUtils.readInt("Enter the N of the hotel");
-            if (index >= hotels.length) {
-                System.out.println("Choose a number between 1 and " + (hotels.length - 1));
-                return;
-            }
-
+            System.out.println("Select hotel:");
+            String chosenId = chooseHotelId();
             String name = ConsoleUtils.readString("Hotel name");
             String address = ConsoleUtils.readString("Address");
             int rooms = ConsoleUtils.readInt("Number of rooms");
             double rating = ConsoleUtils.readDouble("Rating");
-            hotelService.updateHotel(user, hotels[index - 1].getId(), name, address, rooms, rating);
+            hotelService.updateHotel(user, chosenId, name, address, rooms, rating);
+            System.out.println("Hotel updated successfully");
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private void handleDeleteHotel(Client user) {
+        try {
+            System.out.println("Select hotel:");
+            String chosenId = chooseHotelId();
+
+            hotelService.deleteHotel(user, chosenId);
+            System.out.println("Hotel deleted successfully");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //shared handlers
+    private void handleReserveRoom(Client user) {
+        try {
+            System.out.println("Select hotel:");
+            String chosenId = chooseHotelId();
+            reservationService.reserveRoom(user, chosenId, 1);
+            System.out.println("Room reserved successfully");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //utils
+    private String chooseHotelId() {
+        List<Hotel> hotelsList = hotelService.listAllHotels();
+        Hotel[] hotels = hotelsList.toArray(new Hotel[0]);
+
+        for (int i = 0; i < hotels.length; i++) {
+            System.out.println((i + 1) + ". " + hotels[i].getName());
+        }
+
+        int index = ConsoleUtils.readInt("Enter the N of the hotel");
+        if (index >= hotels.length) {
+            System.out.println("Choose a number between 1 and " + (hotels.length - 1));
+        }
+
+        String id = hotels[index].getId();
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("Invalid hotel id");
+        }
+        return id;
     }
 
     public static void main(String[] args) {
