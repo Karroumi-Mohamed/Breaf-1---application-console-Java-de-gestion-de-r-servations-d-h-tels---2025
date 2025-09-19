@@ -17,7 +17,7 @@ public class ReservationService {
         this.hotelRepo = hotelRepo;
     }
 
-    public Reservation reserveRoom(Client client, UUID hotelId, int nights) {
+    public Reservation reserveRoom(Client client, String hotelId, int nights) {
         if (nights <= 0)
             throw new IllegalArgumentException("Nights must be > 0");
 

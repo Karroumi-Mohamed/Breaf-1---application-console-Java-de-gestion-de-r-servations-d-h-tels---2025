@@ -6,10 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 public class HotelRepositoryImpl implements HotelRepository {
-    private final Map<UUID, Hotel> hotels = new HashMap<>();
+    private final Map<String, Hotel> hotels = new HashMap<>();
 
     @Override
     public void save(Hotel hotel) {
@@ -17,12 +16,12 @@ public class HotelRepositoryImpl implements HotelRepository {
     }
 
     @Override
-    public Optional<Hotel> findById(UUID id) {
+    public Optional<Hotel> findById(String id) {
         return Optional.ofNullable(hotels.get(id));
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         hotels.remove(id);
     }
 

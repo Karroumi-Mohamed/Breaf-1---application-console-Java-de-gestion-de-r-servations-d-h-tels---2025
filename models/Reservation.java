@@ -6,12 +6,12 @@ import java.util.UUID;
 public class Reservation {
     private UUID id;
     private Instant timestamp;
-    private UUID hotelID;
+    private String hotelID;
     private UUID clientID;
     private int nights;
     private boolean isActive = true;
 
-    public Reservation(UUID hotelID, UUID clientID, int nights) {
+    public Reservation(String hotelID, UUID clientID, int nights) {
         id = UUID.randomUUID();
         timestamp = Instant.now();
         this.hotelID = hotelID;
@@ -27,7 +27,7 @@ public class Reservation {
         return timestamp;
     }
 
-    public UUID getHotelID() {
+    public String getHotelID() {
         return hotelID;
     }
 
@@ -39,7 +39,7 @@ public class Reservation {
         return nights;
     }
 
-    public void setHotelID(UUID hotelID) {
+    public void setHotelID(String hotelID) {
         this.hotelID = hotelID;
     }
 

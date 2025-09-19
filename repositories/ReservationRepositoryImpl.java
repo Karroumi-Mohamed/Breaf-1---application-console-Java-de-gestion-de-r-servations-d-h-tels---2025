@@ -29,7 +29,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
 
     @Override
-    public List<Reservation> findByHotelId(UUID hotelId) {
+    public List<Reservation> findByHotelId(String hotelId) {
         return reservations.values().stream().filter(r -> r.getHotelID().equals(hotelId)).toList();
     }
 
@@ -38,7 +38,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         return reservations.values().stream()
                 .filter(r -> r.getClientID().equals(clientId) && r.isActive()).toList();
     }
-    public List<Reservation> findActiveByHotelId(UUID hotelId) {
+    public List<Reservation> findActiveByHotelId(String hotelId) {
         return reservations.values().stream()
                 .filter(r -> r.getHotelID().equals(hotelId) && r.isActive()).toList();
     }

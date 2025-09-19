@@ -7,17 +7,17 @@ public class Hotel {
     private String address;
     private int availableRooms;
     private double rating;
-    private UUID id;
+    private String id;
 
     public Hotel(String name, String address, int rooms, double rating) {
-        id = UUID.randomUUID();
+        id = UUID.randomUUID().toString();
         this.name = name;
         this.address = address;
         availableRooms = rooms;
         this.rating = rating;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 

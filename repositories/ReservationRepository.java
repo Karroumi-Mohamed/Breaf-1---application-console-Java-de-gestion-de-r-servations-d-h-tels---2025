@@ -14,9 +14,9 @@ public interface ReservationRepository {
 
     List<Reservation> findActiveByClientId(UUID clientId);
 
-    List<Reservation> findActiveByHotelId(UUID hotelId);
+    List<Reservation> findActiveByHotelId(String hotelId);
 
-    List<Reservation> findByHotelId(UUID hotelId);
+    List<Reservation> findByHotelId(String hotelId);
 
     List<Reservation> findAll();
 

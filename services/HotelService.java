@@ -6,9 +6,8 @@ import models.Role;
 import repositories.HotelRepository;
 import repositories.ReservationRepository;
 import java.util.List;
-import java.util.UUID;
 
-class HotelService {
+public class HotelService {
     private final HotelRepository hotelRepo;
     private final ReservationRepository reservationRepo;
 
@@ -41,7 +40,7 @@ class HotelService {
                 .filter(h -> h.getAvailableRooms() > 0).toList();
     }
 
-    public void updateHotel(Client user, UUID hotelId, String newName, String newAddress, Integer newRooms,
+    public void updateHotel(Client user, String hotelId, String newName, String newAddress, Integer newRooms,
             Double newRating) {
         if (user.getRole() != Role.Admin) {
             throw new SecurityException("Only admins can update hotels");
@@ -57,9 +56,10 @@ class HotelService {
             hotel.setAvailableRooms(newRooms);
         if (newRating != null)
             hotel.setRating(newRating);
+        hotelRepo.save(hotel);
     }
 
-    public void deleteHotel(Client user, UUID id) {
+    public void deleteHotel(Client user, String id) {
         if (user.getRole() != Role.Admin) {
             throw new SecurityException("Only Admin can delete hotels");
         }

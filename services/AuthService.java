@@ -1,11 +1,14 @@
 package services;
 
+import java.util.Optional;
+
 import models.Client;
 import models.Role;
 import repositories.ClientRepository;
 
 public class AuthService {
     private final ClientRepository clientRepo;
+    private Client logged;
 
     public  AuthService(ClientRepository clientRepo) {
         this.clientRepo = clientRepo;
@@ -33,8 +36,13 @@ public class AuthService {
         if (!client.checkPassword(password)) {
             throw new IllegalArgumentException("Invalid email or password");
         }
+        logged = client;
 
         return client;
+    }
+
+    public void logout(){
+        logged = null;
     }
 
     public void updateEmail(Client client, String newEmail) {
@@ -50,5 +58,9 @@ public class AuthService {
             throw new IllegalArgumentException("Password must be at least 6 characters");
         }
         clientRepo.save(client);
+    }
+
+    public Optional<Client> user(){
+        return Optional.ofNullable(logged);
     }
 }
